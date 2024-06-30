@@ -20,8 +20,9 @@ def add_book():
         publication_date=data['publication_date'],
         book_type=BookType[data['book_type'].upper()]
     )
+    number_of_books_added = data['number_of_books_added']
     libcat = LibCat(current_app.config['DB_CONNECTION'])
-    libcat.add_new_book(book)
+    libcat.add_new_book(book, number_of_books_added)
     return jsonify({"message": "Book added successfully"}), 201
 
 @bp.route('/delete_book', methods=['DELETE'])
