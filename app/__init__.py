@@ -6,8 +6,8 @@ def create_app():
     
     app.config['DB_CONNECTION'] = mysql.connector.connect(
         host="localhost",
-        user="jains",  #add mysql user
-        password="Sar@7024++", #password
+        user="",  #add mysql user
+        password="", #password
         database="library_management" #ensure db exists
     )
 
