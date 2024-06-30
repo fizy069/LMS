@@ -1,13 +1,13 @@
 from flask import Flask
 import mysql.connector
-
+from .routes.book_routes import bp as book_routes_bp
 def create_app():
     app = Flask(__name__)
     
     app.config['DB_CONNECTION'] = mysql.connector.connect(
         host="localhost",
-        user="",  #add mysql user
-        password="", #password
+        user="jains",  #add mysql user
+        password="Sar@7024++", #password
         database="library_management" #ensure db exists
     )
 

@@ -1,6 +1,6 @@
 from flask import Blueprint, request, jsonify, current_app
-from ..models.book import Book, BookType
-from ..libcat import LibCat
+from app.models.book import Book, BookType
+from app.libcat import LibCat
 
 bp = Blueprint('book_routes', __name__)
 
