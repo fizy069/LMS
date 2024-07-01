@@ -21,7 +21,7 @@ class Book:
         self.book_type = book_type
         self.times_issued = 0
         self.rating = 0.0
-        self.permanent_copies = 1
+        self.permanent_copies = 0
         self.Number_of_Borrowed_Copies = 0
 
     def __hash__(self):

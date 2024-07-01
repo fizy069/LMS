@@ -1,6 +1,6 @@
 from flask import Flask
 import mysql.connector
-
+from .routes.book_routes import bp as book_routes_bp
 def create_app():
     app = Flask(__name__)
     

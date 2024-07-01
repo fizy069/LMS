@@ -1,6 +1,6 @@
 # app/libcat.py
 import mysql.connector
-from models.book import Book, BookType, BookState
+from app.models.book import Book, BookType, BookState
 
 class LibCat:
     def __init__(self, db_connection):
