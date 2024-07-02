@@ -1,0 +1,9 @@
+{% extends "layout.html" %}
+{% block title %}HomePage{% endblock %}
+
+{% block body %}
+    <h2>Welcome</h2>
+    <p>Please choose an Option!!!</p>
+    <a href="{{ url_for('login') }}"><button>Login</button></a>
+    <a href="{{ url_for('register') }}"><button>register</button></a>
+{% endblock %}

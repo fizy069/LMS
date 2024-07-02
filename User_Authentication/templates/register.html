@@ -1,0 +1,74 @@
+{% extends "layout.html" %}
+{% block body %}
+<h2>Register</h2>
+<form method="post" action="{{ url_for('register') }}">
+    <label for="first_name">First Name:</label>
+    <input type="text" id="first_name" name="first_name" required><br>
+    <label for="last_name">Last Name:</label>
+    <input type="text" id="last_name" name="last_name" required><br>
+    <label for="username">Username:</label>
+    <input type="text" id="username" name="username" required><br>
+    <label for="email">Email:</label>
+    <input type="email" id="email" name="email" required><br>
+    <label for="password">Password:</label>
+    <input type="password" id="password" name="password" required><br>
+    
+    <label>Register as:</label><br>
+    <input type="radio" id="user_role" name="role" value="User" checked>
+    <label for="user_role">User</label><br>
+    
+    <input type="radio" id="admin_role" name="role" value="Admin">
+    <label for="admin_role">Admin</label><br>
+    
+    <input type="radio" id="librarian_role" name="role" value="Librarian">
+    <label for="librarian_role">Librarian</label><br>
+
+    <div id="admin_fields" style="display: none;">
+        <label for="admin_level">Admin Level:</label>
+        <input type="text" id="admin_level" name="admin_level"><br>
+        <label for="salary">Salary:</label>
+        <input type="number" id="salary" name="salary"><br>
+    </div>
+    
+    <div id="user_fields">
+        <label for="membership_start_date">Membership Start Date:</label>
+        <input type="date" id="membership_start_date" name="membership_start_date"><br>
+        <label for="membership_end_date">Membership End Date:</label>
+        <input type="date" id="membership_end_date" name="membership_end_date"><br>
+    </div>
+    
+    <div id="librarian_fields" style="display: none;">
+        <label for="employment_date">Employment Date:</label>
+        <input type="date" id="employment_date" name="employment_date"><br>
+        <label for="shift">Shift:</label>
+        <input type="text" id="shift" name="shift"><br>
+        <label for="salary">Salary:</label>
+        <input type="number" id="salary" name="salary"><br>
+    </div>
+    
+    <button type="submit">Register</button>
+</form>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    var roleRadios = document.querySelectorAll('input[name="role"]');
+    roleRadios.forEach(function(radio) {
+        radio.addEventListener('change', function() {
+            if (this.value === 'Admin') {
+                document.getElementById('admin_fields').style.display = 'block';
+                document.getElementById('user_fields').style.display = 'none';
+                document.getElementById('librarian_fields').style.display = 'none';
+            } else if (this.value === 'User') {
+                document.getElementById('admin_fields').style.display = 'none';
+                document.getElementById('user_fields').style.display = 'block';
+                document.getElementById('librarian_fields').style.display = 'none';
+            } else if (this.value === 'Librarian') {
+                document.getElementById('admin_fields').style.display = 'none';
+                document.getElementById('user_fields').style.display = 'none';
+                document.getElementById('librarian_fields').style.display = 'block';
+            }
+        });
+    });
+});
+</script>
+{% endblock %}
