@@ -1,0 +1,56 @@
+{% extends "layout.html" %}
+{% block title %}HomePage{% endblock %}
+{% block body %}
+<style>
+    .home-container {
+        text-align: center;
+    }
+
+    h2 {
+        color: var(--primary-color);
+        font-size: 2rem;
+        margin-bottom: 1rem;
+    }
+
+    p {
+        margin-bottom: 2rem;
+        font-size: 1.1rem;
+    }
+
+    .btn-container {
+        display: flex;
+        justify-content: space-around;
+    }
+
+    .btn {
+        background-color: var(--primary-color);
+        color: white;
+        padding: 0.75rem 1.5rem;
+        border: none;
+        border-radius: 4px;
+        text-decoration: none;
+        font-weight: bold;
+        transition: all 0.3s ease;
+    }
+
+    .btn:hover {
+        background-color: #181742;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .btn:active {
+        transform: translateY(0);
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+</style>
+
+<div class="home-container">
+    <h2>Welcome to BiblioMate</h2>
+    <p>Your digital library companion. Please choose an option:</p>
+    <div class="btn-container">
+        <a href="{{ url_for('login') }}" class="btn">Login</a>
+        <a href="{{ url_for('register') }}" class="btn">Register</a>
+    </div>
+</div>
+{% endblock %}

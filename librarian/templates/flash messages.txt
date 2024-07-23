@@ -1,0 +1,24 @@
+<!-- Flash messages container -->
+        <div class="flash-messages">
+            {% with messages = get_flashed_messages(with_categories=false) %}
+                {% if messages %}
+                    {% for message in messages %}
+                        <div class="flash-message">{{ message }}</div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+        </div>
+
+    <script>
+        // Automatically remove flash messages after 3 seconds
+        document.addEventListener('DOMContentLoaded', function() {
+            var messages = document.getElementsByClassName('flash-message');
+            for (var i = 0; i < messages.length; i++) {
+                (function(message) {
+                    setTimeout(function() {
+                        message.style.display = 'none';
+                    }, 3000); // 3000 milliseconds = 3 seconds
+                })(messages[i]);
+            }
+        });
+    </script>

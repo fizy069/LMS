@@ -1,0 +1,112 @@
+{% extends "layout.html" %}
+{% block body %}
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        line-height: 1.6;
+        margin: 0;
+        padding: 20px;
+        background-color: #f4f4f4;
+    }
+    .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 20px;
+        background-color: #fff;
+        box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        border-radius: 5px;
+        position: relative;
+    }
+    h1 {
+        color: #333;
+        text-align: center;
+        margin-bottom: 20px;
+    }
+    .welcome-message {
+        text-align: center;
+        font-size: 1.2em;
+        margin-bottom: 30px;
+    }
+    .funds-box {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        border: 2px solid #007bff;
+        border-radius: 5px;
+        padding: 15px;
+        background-color: #f8f9fa;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    .funds-box h3 {
+        margin-top: 0;
+        color: #007bff;
+    }
+    .funds-box p {
+        font-size: 1.5em;
+        font-weight: bold;
+        margin: 10px 0 0;
+        color: #28a745;
+    }
+    .admin-menu {
+        list-style-type: none;
+        padding: 0;
+    }
+    .admin-menu li {
+        margin-bottom: 10px;
+    }
+    .admin-menu a {
+        display: block;
+        padding: 10px 15px;
+        background-color: #007bff;
+        color: #fff;
+        text-decoration: none;
+        border-radius: 5px;
+        transition: background-color 0.3s ease;
+    }
+    .admin-menu a:hover {
+        background-color: #0056b3;
+    }
+    .logout-container {
+        position: absolute;
+        top: 20px;
+        right: 10px; /* Adjusted to not overlap with funds-box */
+    }
+    .logout-button {
+        background-color: #dc3545;
+        color: #fff;
+        padding: 8px 15px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 20px;
+        transition: background-color 0.3s;
+    }
+    .logout-button:hover {
+        background-color: #c82333;
+    }
+</style>
+
+<div>
+    <h1>Admin Home</h1>
+    
+    <p class="welcome-message">Welcome to the Admin Home Page, Mr.{{ person.first_name }}.</p>
+    <div class="logout-container">
+        <form action="{{ url_for('home') }}" method="GET">
+            <button type="submit" class="logout-button">Logout</button>
+        </form>
+    </div>
+    <!--
+    <div class="funds-box">
+        <h3>Library Funds</h3>
+        <p>${{ funds }}</p>
+    </div>
+    -->
+    <ul class="admin-menu">
+        <li><a href="{{ url_for('admin.purchase_orders') }}">Manage Purchase Orders</a></li>
+        <li><a href="{{ url_for('admin.search_users') }}">Search Users and Librarians</a></li>
+        <li><a href="{{ url_for('admin.overdue_books') }}">View Overdue Books</a></li>
+        <li><a href="{{ url_for('admin.premium_requests') }}">View Premium Requests</a></li>
+        <li><a href="{{ url_for('admin.view_catalog') }}">View Library Catalog</a></li>
+    </ul>
+</div>
+{% endblock %}

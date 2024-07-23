@@ -1,0 +1,120 @@
+{% extends "layout.html" %}
+{% block body %}
+<style>
+    .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 20px;
+    }
+    h1 {
+        color: #333;
+        text-align: center;
+        margin-bottom: 30px;
+        font-weight: bold;
+        font-family: 'Roboto', sans-serif;
+    }
+    .search-form {
+        margin-bottom: 20px;
+        text-align: center;
+    }
+    .search-input {
+        padding: 10px;
+        width: 300px;
+        font-size: 16px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+    }
+    .search-button {
+        padding: 10px 20px;
+        font-size: 16px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 20px;
+    }
+    th, td {
+        padding: 12px;
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+        font-family: 'Roboto', sans-serif;
+    }
+    th {
+        background-color: #f2f2f2;
+        font-weight: bold;
+        font-family: 'Roboto', sans-serif;
+    }
+    tr:hover {
+        background-color: #f5f5f5;
+    }
+    .no-results {
+        text-align: center;
+        font-style: italic;
+        color: #666;
+    }
+    .button-container {
+        margin-top: 20px;
+    }
+
+    a.button {
+        display: inline-block;
+        background-color: #4CAF50;
+        color: white;
+        padding: 10px 20px;
+        text-decoration: none;
+        border-radius: 5px;
+        transition: background-color 0.3s ease;
+    }
+
+    a.button:hover {
+        background-color: #45a049;
+    }
+</style>
+<div>
+    <h1>Search Users and Librarians</h1>
+    <form class="search-form" action="{{ url_for('admin.search_users') }}" method="get">
+        <input type="text" name="search" placeholder="Enter username or email" value="{{ request.args.get('search', '') }}" class="search-input">
+        <button type="submit" class="search-button">Search</button>
+    </form>
+    {% if results %}
+        <table>
+            <thead>
+                <tr>
+                    <th>Username</th>
+                    <th>Email</th>
+                    <th>Role</th>
+                    <th>Details</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for result in results %}
+                <tr>
+                    <td>{{result.username}}</td>
+                    <td>{{result.email}}</td>
+                    <td>{{result.role}}</td>
+                    <td>
+                        {% if result.role == 'User' %}
+                            Membership: {{ result.membership_type or 'N/A'}}
+                        {% elif result.role=='Librarian' %}
+                            Employed since: {{ result.employment_date or 'N/A'}}
+                        {% else %}
+                            Unauthorized
+                        {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p class="no-results">OOPS! No results found "{{request.args.get('search','')}}"</p>
+    {% endif %}
+    <div class="button-container">
+        <a href="{{ url_for('admin.admin_home', admin_id=admin_id) }}" class="button">Back to Admin Home</a>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,222 @@
+{% extends "layout.html" %}
+{% block body %}
+<title>Librarian Homepage</title>
+    <style>
+        /* Basic CSS for layout */
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 800px;
+            margin: auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .button-group {
+            text-align: left;
+            margin-bottom: 20px;
+        }
+        .button-group .button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 5px;
+            cursor: pointer;
+            display: inline-block;
+            margin-right: 10px;
+        }
+        .logout {
+            text-align: right;
+        }
+        .books {
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            text-align: center;
+            padding: 10px;
+        }
+        .books h2 {
+            margin-bottom: 10px;
+        }
+        .books .table-container {
+            overflow-x: auto;
+        }
+        table {
+            width: 100%;
+            text-align: center;
+            border-collapse: collapse;
+            margin: auto;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        td:nth-child(1) {
+            width: 35%;
+        }
+        td:nth-child(2) {
+            width: 30%;
+        }
+        td:nth-child(3) {
+            width: 20%;
+        }
+        tbody {
+            display: block;
+            max-height: 190px;
+            overflow-y: auto;
+            overflow-x: hidden;
+        }
+        thead, tbody tr {
+            display: table;
+            width: 100%;
+            table-layout: fixed;
+        }
+        thead {
+            width: calc(100% - 3px);
+            overflow-y: hidden;
+        }
+        .flash-messages {
+            position: fixed;
+            top: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 5px;
+            border: 1px solid #ccc;
+            border-radius: 1px;
+            z-index: 1000;
+            text-align: center;
+        }
+        .order {
+            width: 400px;
+            padding: 20px;
+            margin: auto;
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin-top: 20px;
+        }
+        .order h2 {
+            margin-bottom: 20px;
+            font-size: 1.2em;
+            text-align: center;
+        }
+        .order form {
+            display: flex;
+            flex-direction: column;
+        }
+        .order label {
+            margin-bottom: 15px;
+            width: 100%;
+            text-align: left;
+        }
+        .order input[type="text"],
+        .order input[type="number"] {
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+            width: 100%;
+        }
+        .order .button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+            border-radius: 4px;
+            text-align: center;
+            margin-top: 10px;
+        }
+        .order .button:hover {
+            background-color: #45a049;
+        }
+        .logout .button {
+            background-color: #f44336;
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 5px;
+            cursor: pointer;
+            display: inline-block;
+            margin: 5px;
+        }
+        .logout {
+            text-align: right;
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <h1>Welcome, {{librarian[1]}}</h1>
+
+        <!-- Logout Button -->
+        <div class="logout">
+            <a href="{{ url_for('home') }}" class="button">Logout</a>
+        </div>
+
+        <!-- Profile and Borrowed Book Section -->
+        <div class="button-group">
+            <a href="{{ url_for('librarian.edit_librarian_profile', librarian_id=librarian_id) }}" class="button">Edit Profile</a>
+            <a href="{{ url_for('librarian.View_borrowed_books_home', librarian_id=librarian_id) }}" class="button">View Borrowed Books</a>
+        </div>
+
+        <!-- Browse Books Section -->
+        <div class="books">
+            <h2>Browse Books</h2>
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Title</th>
+                            <th>Author</th>
+                            <th>Copies Available</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for book in books %}
+                        <tr>
+                            <td>{{ book[0] }}</td>
+                            <td>{{ book[1] }}</td>
+                            <td>{{ book[2] }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Place Order Section -->
+        <div class="order">
+            <h2>Place Order for a Book</h2>
+            <form action="#" method="post">
+                <label for="bookTitle">Book Title:</label>
+                <input type="text" id="bookTitle" name="bookTitle" required>
+                
+                <label for="author">Author:</label>
+                <input type="text" id="author" name="author" required>
+                
+                <label for="quantity">Quantity:</label>
+                <input type="number" id="quantity" name="quantity" min="1" required>
+                
+                <input type="submit" value="Place Order" class="button">
+            </form>
+        </div>
+    </div>
+</body>
+{% endblock %}

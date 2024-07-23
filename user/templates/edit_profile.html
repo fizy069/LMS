@@ -1,0 +1,127 @@
+{% extends 'layout.html'%}
+{% block body %}
+<title>Edit Profile - Library Management System</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f0f0f0;
+        margin: 0;
+        padding: 0;
+    }
+    .container {
+        max-width: 600px;
+        margin: 50px auto;
+        background: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    h1 {
+        text-align: center;
+        color: #333;
+    }
+    form div {
+        margin-bottom: 15px;
+    }
+    label {
+        display: block;
+        margin-bottom: 5px;
+        color: #555;
+    }
+    input[type="text"],
+    input[type="email"],
+    input[type="password"] {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+    }
+    button {
+        width: 100%;
+        padding: 10px;
+        background-color: #007BFF;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 16px;
+    }
+    button:hover {
+        background-color: #0056b3;
+    }
+    .messages ul {
+        list-style-type: none;
+        padding: 0;
+    }
+    .messages li {
+        padding: 10px;
+        margin-bottom: 10px;
+        border-radius: 4px;
+    }
+    .messages li[style="color: red;"] {
+        background-color: #f8d7da;
+        color: #721c24;
+    }
+    .messages li:not([style="color: red;"]) {
+        background-color: #d4edda;
+        color: #155724;
+    }
+    a {
+        display: block;
+        text-align: center;
+        margin-top: 20px;
+        color: #007BFF;
+        text-decoration: none;
+    }
+    a:hover {
+        text-decoration: underline;
+    }
+</style>
+</head>
+<body>
+<div>
+    <h1>Edit Your Profile</h1>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <div class="messages">
+                <ul>
+                {% for category, message in messages %}
+                    <li{% if category == 'error' %} style="color: red;"{% endif %}>{{ message }}</li>
+                {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
+    {% endwith %}
+    <form action="{{ url_for('user.edit_profile', user_id=user['person_id']) }}" method="post">
+        <div>
+            <label for="first_name">First Name:</label>
+            <input type="text" id="first_name" name="first_name" value="{{ user['first_name'] }}" required>
+        </div>
+        <div>
+            <label for="last_name">Last Name:</label>
+            <input type="text" id="last_name" name="last_name" value="{{ user['last_name'] }}" required>
+        </div>
+        <div>
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" value="{{ user['email'] }}" required>
+        </div>
+        <div>
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username" value="{{ user['username'] }}" required>
+        </div>
+        <div>
+            <label for="new_password">New Password (leave blank to keep current):</label>
+            <input type="password" id="new_password" name="new_password">
+        </div>
+        <div>
+            <label for="confirm_password">Confirm New Password:</label>
+            <input type="password" id="confirm_password" name="confirm_password">
+        </div>
+        <div>
+            <button type="submit">Update Profile</button>
+        </div>
+    </form>
+    <a href="{{ url_for('user.user_home', user_id=user['person_id']) }}">Back to Home</a>
+</div>
+</body>
+{% endblock%}

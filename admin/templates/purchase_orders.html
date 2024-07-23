@@ -1,0 +1,180 @@
+{% extends "layout.html" %}
+{% block body %}
+<style>
+  
+    .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 20px;
+    }
+    h1 {
+        color: #333;
+        text-align: center;
+        margin-bottom: 30px;
+        font-weight: bold;
+        font-family: 'Roboto', sans-serif;
+    }
+    .alert {
+        padding: 15px;
+        margin-bottom: 20px;
+        border: 1px solid transparent;
+        border-radius: 4px;
+    }
+    .alert-success {
+        color: #3c763d;
+        background-color: #dff0d8;
+        border-color: #d6e9c6;
+    }
+    .alert-danger {
+        color: #a94442;
+        background-color: #f2dede;
+        border-color: #ebccd1;
+    }
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 20px;
+    }
+    th, td {
+        padding: 12px;
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+        font-family: 'Roboto', sans-serif;
+    }
+    th {
+        background-color: #f2f2f2;
+        font-weight: bold;
+        font-family: 'Roboto', sans-serif;
+    }
+    tr:hover {
+        background-color: #f5f5f5;
+    }
+    .btn {
+        display: inline-block;
+        padding: 6px 12px;
+        margin-bottom: 0;
+        font-size: 14px;
+        font-weight: 400;
+        line-height: 1.42857143;
+        text-align: center;
+        white-space: nowrap;
+        vertical-align: middle;
+        cursor: pointer;
+        border: 1px solid transparent;
+        border-radius: 4px;
+    }
+    .btn-success {
+        color: #fff;
+        background-color: #5cb85c;
+        border-color: #4cae4c;
+    }
+    .btn-danger {
+        color: #fff;
+        background-color: #d9534f;
+        border-color: #d43f3a;
+    }
+    .pagination {
+        display: flex;
+        justify-content: center;
+        list-style: none;
+        padding: 0;
+    }
+    .page-item {
+        margin: 0 5px;
+    }
+    .page-link {
+        color: #007bff;
+        text-decoration: none;
+        padding: 5px 10px;
+        border: 1px solid #dee2e6;
+        border-radius: 3px;
+    }
+    .page-item.active .page-link {
+        color: #fff;
+        background-color: #007bff;
+        border-color: #007bff;
+    }
+      .button-container {
+        margin-top: 20px;
+      }
+
+      a.button {
+        display: inline-block;
+        background-color: #4CAF50;
+        color: white;
+        padding: 10px 20px;
+        text-decoration: none;
+        border-radius: 5px;
+        transition: background-color 0.3s ease;
+      }
+
+      a.button:hover {
+        background-color: #45a049;
+      }
+</style>
+
+<div>
+    <h1>Pending Purchase Orders</h1>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+          <div class="alert alert-{{ category }}">{{ message }}</div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+
+    {% if orders %}
+      <table>
+        <thead>
+          <tr>
+            <th>Order ID</th>
+            <th>Librarian ID</th>
+            <th>Book Title</th>
+            <th>Author</th>
+            <th>Quantity</th>
+            <th>Order Date</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+        {% for order in orders %}
+          <tr>
+            <td>{{ order.order_id }}</td>
+            <td>{{ order.librarian_id }}</td>
+            <td>{{ order.book_title }}</td>
+            <td>{{ order.author }}</td>
+            <td>{{ order.quantity }}</td>
+            <td>{{ order.order_date }}</td>
+            <td>
+              <form action="{{ url_for('admin.update_order') }}" method="post" style="display: inline;">
+                <input type="hidden" name="order_id" value="{{ order.order_id }}">
+                <button type="submit" name="status" value="Approved" class="btn btn-success">Approve</button>
+              </form>
+              <form action="{{ url_for('admin.update_order') }}" method="post" style="display: inline;">
+                <input type="hidden" name="order_id" value="{{ order.order_id }}">
+                <button type="submit" name="status" value="Rejected" class="btn btn-danger">Reject</button>
+              </form>
+            </td>
+          </tr>
+        {% endfor %}
+        </tbody>
+      </table>
+
+      <nav aria-label="Page navigation">
+        <ul class="pagination">
+          {% for page in range(1, total_pages + 1) %}
+            <li class="page-item {% if page == current_page %}active{% endif %}">
+              <a class="page-link" href="{{ url_for('admin.purchase_orders', page=page) }}">{{ page }}</a>
+            </li>
+          {% endfor %}
+        </ul>
+      </nav>
+    {% else %}
+      <p>No pending purchase orders.</p>
+    {% endif %}
+    <div class="button-container">
+      <a href="{{ url_for('admin.admin_home', admin_id=admin_id) }}" class="button">Back to Admin Home</a>
+    </div>
+</div>
+{% endblock %}

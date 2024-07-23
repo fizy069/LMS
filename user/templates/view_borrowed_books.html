@@ -1,0 +1,112 @@
+<title>Borrowed Books</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f2f5;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            width: 80%;
+            max-width: 800px;
+            margin: 20px auto;
+        }
+
+        h1 {
+            color: #4CAF50;
+            margin-bottom: 20px;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        li {
+            background-color: #f9f9f9;
+            margin: 10px 0;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            text-align: left;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .book-details {
+            flex-grow: 1;
+        }
+
+        .button-container {
+            margin-top: 20px;
+        }
+
+        .button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .button:hover {
+            background-color: #45a049;
+        }
+
+        .return-button {
+            background-color: #ff5733;
+        }
+
+        .return-button:hover {
+            background-color: #c70039;
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <h1>Borrowed Books</h1>
+
+        {% if borrowed_books %}
+        <ul>
+            {% for book in borrowed_books %}
+            <li>
+                <div class="book-details">
+                    <strong>Title:</strong> {{ titles[loop.index0][0] }}<br>
+                    <strong>Book ID:</strong> {{ book[0] }}<br>
+                    <strong>Borrowed on:</strong> {{ book[1] }}<br>
+                    <strong>Due Date:</strong> {{ book[2] }}
+                </div>
+                <form action="{{ url_for('user.return_book_action') }}" method="post">
+                    <input type="hidden" name="book_id" value="{{ book[0] }}">
+                    <input type="hidden" name="user_id" value="{{ user_id }}">
+                    <button type="submit" class="button return-button">Return Book</button>
+                </form>
+            </li>
+            {% endfor %}
+        </ul>
+        {% else %}
+        <p>No books borrowed yet.</p>
+        {% endif %}
+
+        <div class="button-container">
+            <a href="{{ url_for('user.user_home', user_id=user_id) }}" class="button">Back to User Home</a>
+        </div>
+    </div>
+</body>

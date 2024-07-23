@@ -1,0 +1,117 @@
+{% extends "layout.html"%}
+{% block body %}
+<style>
+    
+    .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 20px;
+    }
+    h1 {
+        color: #333;
+        text-align: center;
+        margin-bottom: 30px;
+        font-weight: bold;
+        font-family: 'Roboto', sans-serif;
+    }
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 20px;
+    }
+    th,
+    td {
+        padding: 12px;
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+    }
+    th {
+        background-color: #f2f2f2;
+        font-weight: bold;
+    }
+    tr:hover {
+        background-color: #f5f5f5;
+    }
+    .no-results {
+        text-align: center;
+        font-style: italic;
+        color: #666;
+    }
+    .action-buttons {
+        display: flex;
+        gap: 10px;
+    }
+    .btn {
+        padding: 5px 10px;
+        border: none;
+        border-radius: 3px;
+        cursor: pointer;
+    }
+    .btn-warning {
+        background-color: #ffc107;
+        color: #000;
+    }
+    .btn-danger {
+        background-color: #dc3545;
+        color: #fff;
+    }
+    .button-container {
+        margin-top: 20px;
+    }
+
+    a.button {
+        display: inline-block;
+        background-color: #4CAF50;
+        color: white;
+        padding: 10px 20px;
+        text-decoration: none;
+        border-radius: 5px;
+        transition: background-color 0.3s ease;
+    }
+
+    a.button:hover {
+        background-color: #45a049;
+    }
+</style>
+<div>
+    <h1>Review Overdue Books</h1>
+    {% if overdue_books %}
+    <table>
+        <thead>
+            <tr>
+                <th>Username</th>
+                <th>Book Title</th>
+                <th>Due Date</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for book in overdue_books %}
+            <tr>
+                <td>{{ book.username }}</td>
+                <td>{{ book.Title }}</td>
+                <td>{{ book.due_date }}</td>
+                <td class="action-buttons">
+                    <form action="{{ url_for('admin.send_warning') }}" method="POST">
+                        <input type="hidden" name="username" value="{{ book.username }}">
+                        <input type="hidden" name="book_title" value="{{ book.Title }}">
+                        <input type="hidden" name="due_date" value="{{ book.due_date }}">
+                        <button type="submit" class="btn btn-warning">Send Warning</button>
+                    </form>
+                    <form action="{{ url_for('admin.mark_lost') }}" method="POST">
+                        <input type="hidden" name="book_id" value="{{ book.book_id }}">
+                        <button type="submit" class="btn btn-danger">Mark as Lost</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <p class="no-results">No overdue books at the moment.</p>
+    {% endif %}
+    <div class="button-container">
+        <a href="{{ url_for('admin.admin_home', admin_id=admin_id) }}" class="button">Back to Admin Home</a>
+    </div>
+</div>
+{% endblock %}
